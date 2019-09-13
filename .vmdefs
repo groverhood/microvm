@@ -1,0 +1,54 @@
+{
+    "name": "m86",
+    "width": 64,
+    "instructions": [
+        {
+            "name": "halt",
+            "operands": "none"
+        },
+        {
+            "name": "op",
+            "operands": [
+                "^&zero",
+                "reg",
+                "^&imm",
+                "?mem"
+            ],
+            "alias": false,
+            "functions": [
+                "mov",
+                "add",
+                "sub",
+                "mul",
+                "div",
+                "and",
+                "or",
+                "xor",
+                "cmp",
+                "test"
+            ]
+        },
+        {
+            "name": "lea",
+            "operands": [
+                {
+                    "modes": [
+                        "&r1r2sc",
+                        "r1r2s",
+                        "&r1r2c",
+                        "r1r2",
+                        "&r1c",
+                        "&r2sc",
+                        "r2s",
+                        "r1",
+                        "&c"
+                    ],
+                    "repeatable": false,
+                    "use": "left"
+                },
+                "$reg"
+            ]
+        }
+    ],
+    "version": 0
+}

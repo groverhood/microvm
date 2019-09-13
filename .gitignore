@@ -1,3 +1,4 @@
 .vscode
 .build
 *.mbn
+devscripts/__pycache__

@@ -1,4 +1,7 @@
 .vscode
-.build
+build
+build-microvm
+dist
 *.mbn
-devscripts/__pycache__
+__pycache__
+*.egg-info

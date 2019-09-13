@@ -63,4 +63,3 @@ typedef uint64_t m86_word_t;
 #define M86_INSTR_LEA_C64REG 0x2B
 
 #endif
-        

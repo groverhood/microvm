@@ -1,7 +1,7 @@
 
 import json
-
-import genutils
+import argparse
+import scripts.genutils as genutils
 
 def gendefs(input_file, output_file):
     with open(input_file, 'r') as rs:
@@ -25,13 +25,18 @@ typedef uint{width}_t {name}_word_t;
 
 {newline.join(map(genutils.Instruction.encode, instructions))}
 
-#endif
-        '''
+#endif'''
 
         if output_file == 'stdout':
             print(output)
-        with open(output_file, 'w') as ws:
-            ws.write(output)
+        else:
+            with open(output_file, 'w') as ws:
+                ws.write(output)
 
-if __name__ == '__main__':
-    gendefs('.vmdefs', 'inc/m86def.h')
+def main():
+    parser = argparse.ArgumentParser('gendefs')
+    parser.add_argument('-f', '--file', dest='file', nargs='?', default='.vmdefs', type=str)
+    parser.add_argument('-o', '--out', dest='out', nargs='?', default='stdout', type=str)
+
+    argv = parser.parse_args()
+    gendefs(argv.file, argv.out)

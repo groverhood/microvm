@@ -1,22 +1,17 @@
+#!/bin/bash
 
 # make the .build directory if it doesn't already exist
 if [ -d ".build" ]; then
-    rm -rf .build/*
+    rm -rf build-microvm/*
 else
-    mkdir .build
+    mkdir build-microvm
 fi
 
-# generate Cython binaries first for development
-# purposes
-# gcc -Os -I /usr/include/python3.6 example.c -lpython3.6 -o .build/devscripts/example
-mkdir .build/devscripts
-mkdir .build/devscripts/c
-mkdir .build/devscripts/bin
+# configure the devscripts to run simply by entering their
+# name
+python3 setup.py install --user rotate -m .egg -k 1
 
-for pysrc in devscripts/*.py
-do
-    cython --embed -o .build/devscripts/c/$(basename ${pysrc%.*}).c $pysrc 
-done
+source ~/.bash_profile
 
 # this handles the C sources
 if [ -d "Makefile" ]; then

@@ -1,6 +1,7 @@
 {
     "name": "m86",
     "width": 64,
+    "version": 0,
     "instructions": [
         {
             "name": "halt",
@@ -49,6 +50,5 @@
                 "$reg"
             ]
         }
-    ],
-    "version": 0
+    ]
 }

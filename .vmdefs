@@ -5,7 +5,8 @@
     "instructions": [
         {
             "name": "halt",
-            "operands": "none"
+            "operands": "none",
+            "numoperands": 0
         },
         {
             "name": "op",
@@ -15,6 +16,7 @@
                 "^&imm",
                 "?mem"
             ],
+            "numoperands": 2,
             "alias": false,
             "functions": [
                 "mov",
@@ -31,6 +33,7 @@
         },
         {
             "name": "lea",
+            "numoperands": 2,
             "operands": [
                 {
                     "modes": [
@@ -49,6 +52,52 @@
                 },
                 "$reg"
             ]
+        },
+        {
+            "name": "set",
+            "functions": [
+                "l",
+                "le",
+                "e",
+                "ge",
+                "g",
+                "ne",
+                "a",
+                "b"
+            ],
+            "numoperands": 1,
+            "operands": [
+                "reg",
+                "mem"
+            ]
+        }
+    ],
+    "stages": [
+        {
+            "name": "fetch",
+            "input": "uint8_t*",
+            "output": {
+                "instr": "int",
+                "func": "int",
+
+                "r_a": "int",
+                "r_b": "int",
+                "r_c": "int",
+
+                "val_c1": "$word",
+                "val_c2": "$word",
+
+                "val_s": "int",
+
+                "predicted_val_p": "uint8_t*"
+            }
+        },
+        {
+            "name": "decode",
+            "input": "$previous",
+            "output": {
+
+            }
         }
     ]
 }

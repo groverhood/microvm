@@ -97,7 +97,7 @@
             "name": "decode",
             "input": "$previous",
             "output": {
-
+                
             }
         }
     ]

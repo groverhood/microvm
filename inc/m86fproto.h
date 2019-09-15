@@ -19,189 +19,189 @@ struct m86_decode_output_t {
     
 };
 
-m86_word_t op_zero32_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t lea_r1c16_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t op_zero16_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t op_reg_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t lea_r2sc64_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t lea_c8_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t set_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t lea_r1c64_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t lea_c8_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t lea_c64_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t set_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t op_zero64_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t op_reg_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t lea_r1r2c8_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t op_zero32_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t lea_r2sc16_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t lea_r1c32_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t lea_r1r2sc64_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t op_imm8_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t op_imm16_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t lea_r1_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t lea_r1c8_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t lea_r2sc32_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t op_imm64_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t halt_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
 m86_word_t halt_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
-m86_word_t lea_r1r2sc8_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t op_imm32_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t op_imm64_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t lea_r2s_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t lea_r1r2c16_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t set_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+m86_word_t op_zero8_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
 m86_word_t op_zero16_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t lea_r1r2sc8_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t op_zero32_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t op_zero8_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t op_zero64_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t set_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t op_zero8_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t lea_r1r2c32_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+m86_word_t op_zero16_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t lea_r1r2_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t op_zero32_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t lea_r1r2s_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+m86_word_t op_zero64_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t lea_r2sc32_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+m86_word_t op_reg_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t lea_r1r2c8_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t op_reg_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t op_imm16_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+m86_word_t op_imm8_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t lea_r1_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t op_imm16_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+
+m86_word_t op_imm32_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+
+m86_word_t op_imm64_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+
+m86_word_t op_imm8_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+
+m86_word_t op_imm16_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+
+m86_word_t op_imm32_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+
+m86_word_t op_imm64_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+
+m86_word_t op_mem_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+
+m86_word_t op_zero8_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t op_zero16_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t op_zero32_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t op_zero64_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
 m86_word_t op_zero8_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
-m86_word_t halt_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t op_zero16_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
 m86_word_t op_zero32_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
+m86_word_t op_zero64_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
 m86_word_t op_reg_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
-m86_word_t lea_r2sc8_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t op_reg_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
-m86_word_t op_mem_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+m86_word_t op_imm8_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t op_imm16_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t op_imm32_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
 m86_word_t op_imm64_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
-m86_word_t op_zero64_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t op_imm8_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t op_imm16_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t op_imm32_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t op_imm64_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t op_mem_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t lea_r1r2sc8_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+
+m86_word_t lea_r1r2sc16_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+
+m86_word_t lea_r1r2sc32_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
 m86_word_t lea_r1r2sc64_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
 m86_word_t lea_r1r2s_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t lea_r1r2sc16_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t lea_r1c32_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t lea_r2sc8_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t lea_r2sc16_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t op_zero8_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t op_imm8_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t op_imm8_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t lea_r1c16_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t op_imm8_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+m86_word_t lea_r1r2c8_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
 m86_word_t lea_r1r2c16_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t lea_r2s_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+m86_word_t lea_r1r2c32_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t op_zero64_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t lea_r1r2c64_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t op_imm16_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t lea_r1r2_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t op_reg_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+m86_word_t lea_r1c8_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t op_imm32_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t lea_r1c16_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t lea_r1c64_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+m86_word_t lea_r1c32_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t lea_c32_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+m86_word_t lea_r1c64_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t op_zero64_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+m86_word_t lea_r2sc8_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t lea_c64_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+m86_word_t lea_r2sc16_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+
+m86_word_t lea_r2sc32_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+
+m86_word_t lea_r2sc64_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+
+m86_word_t lea_r2s_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+
+m86_word_t lea_r1_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+
+m86_word_t lea_c8_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+
+m86_word_t lea_c16_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
 m86_word_t lea_c32_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t lea_r1r2c32_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t lea_c64_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t lea_c16_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t lea_r1r2sc8_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t lea_r1r2sc16_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t lea_r1r2sc32_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t lea_r1r2sc64_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t lea_r1r2s_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t lea_r1r2c8_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t lea_r1r2c16_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t lea_r1r2c32_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
 m86_word_t lea_r1r2c64_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
 m86_word_t lea_r1r2_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
-m86_word_t op_imm32_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
 m86_word_t lea_r1c8_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
-m86_word_t lea_r1r2sc16_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t lea_r1c16_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
-m86_word_t lea_r1r2c64_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t lea_r1c32_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t lea_r1c64_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t lea_r2sc8_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t lea_r2sc16_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t lea_r2sc32_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
 m86_word_t lea_r2sc64_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
+m86_word_t lea_r2s_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t lea_r1_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
+m86_word_t lea_c8_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+
 m86_word_t lea_c16_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
-m86_word_t op_zero16_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t lea_c32_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
-m86_word_t op_zero32_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+m86_word_t lea_c64_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
-m86_word_t op_imm16_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+m86_word_t set_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t lea_r1r2sc32_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+m86_word_t set_mem_fetch(uint8_t* in, struct m86_fetch_output_t* out);
 
-m86_word_t op_mem_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
+m86_word_t set_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
-m86_word_t op_imm32_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t lea_r1r2sc32_reg_fetch(uint8_t* in, struct m86_fetch_output_t* out);
-
-m86_word_t op_zero8_reg_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t op_zero16_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
-
-m86_word_t op_imm64_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
+m86_word_t set_mem_decode(struct m86_fetch_output_t* in, struct m86_decode_output_t* out);
 
 typedef m86_word_t (*fetch_handler)(uint8_t*, struct m86_fetch_output_t*);
 

@@ -398,7 +398,21 @@ class DatapathStage(object):
     def __str__(self):
         return self.__name
         
-    
+
+# Taken from https://www.peterbe.com/plog/uniqifiers-benchmark
+def unique(seq, idfun=None): 
+   if idfun is None:
+       idfun = lambda x: x
+   seen = {}
+   result = []
+   for item in seq:
+       marker = idfun(item)
+       if marker in seen: continue
+       seen[marker] = 1
+       result.append(item)
+   return result    
+
+
 class CFuncPrototype(object):
     def __init__(self, namespace: str, stages: list, instr: Instruction):
         self.__namespace = namespace
@@ -439,7 +453,7 @@ class CFuncPrototype(object):
         return []
 
     def typedefs(self):
-        return set(chain.from_iterable(map(self.__typedef, self.__stages)))
+        return unique(chain.from_iterable(map(self.__typedef, self.__stages)))
 
     def names(self, stage):
         return [f'{instr}_{stage}' for instr in self.__instr.unwrap()]

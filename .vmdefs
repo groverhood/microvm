@@ -65,6 +65,7 @@
                 "a",
                 "b"
             ],
+            "alias": false,
             "numoperands": 1,
             "operands": [
                 "reg",

@@ -13,6 +13,9 @@ python3 setup.py install --user rotate -m .egg -k 1
 
 source ~/.bash_profile
 
+genfproto -o inc/m86fproto.h
+gendefs -o inc/m86def.h
+
 # this handles the C sources
 if [ -d "Makefile" ]; then
     make

@@ -19,7 +19,7 @@ setup(
     
     entry_points={
         'console_scripts': [
-            'genfproto=genfproto:main'
+            'genfproto=scripts.genfproto:main'
         ]
     }
 )

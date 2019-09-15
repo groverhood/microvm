@@ -1,5 +1,5 @@
-
 import re
+import functools
 
 from enum import Enum
 from itertools import chain
@@ -17,7 +17,7 @@ class Operand(object):
         self.__width = width
 
     def __str__(self):
-        return f'{self.__name.upper()}{self.__width}' if self.__width is not None else self.__name.upper()
+        return f'{self.__name}{self.__width}' if self.__width is not None else self.__name
 
     def __repr__(self):
         return str(self)
@@ -183,20 +183,20 @@ class Instruction(object):
 
         if self.__uses_functions:
             if self.__aliases:
-                return '\n'.join([f'#define {namesp}_INSTR_{name}{alias.upper()}_{operand} 0x{format(Instruction.__inc_enccnt(), fmt)}'
+                return '\n'.join([f'#define {namesp}_INSTR_{name}{alias.upper()}_{str(operand).upper()} 0x{format(Instruction.__inc_enccnt(), fmt)}'
                                     for operand in unwrapped
                                         for alias in self.__functions])
             else:
                 return '\n'.join([
                     '\n'.join([
-                        f'#define {namesp}_INSTR_{name}_{operand} 0x{format(Instruction.__inc_enccnt(), fmt)}' for operand in unwrapped
+                        f'#define {namesp}_INSTR_{name}_{str(operand).upper()} 0x{format(Instruction.__inc_enccnt(), fmt)}' for operand in unwrapped
                     ]),
                     '\n'.join([
                         f'#define {namesp}_{name}FUNC_{func.upper()} 0x{format(idx, fmt)}' for idx, func in enumerate(self.__functions)
                     ])
                 ])
         else:
-            return '\n'.join([f'#define {namesp}_INSTR_{name}_{operand} 0x{format(Instruction.__inc_enccnt(), fmt)}'
+            return '\n'.join([f'#define {namesp}_INSTR_{name}_{str(operand).upper()} 0x{format(Instruction.__inc_enccnt(), fmt)}'
                                 for operand in unwrapped])
 
     def __encode_binary(self):
@@ -211,14 +211,14 @@ class Instruction(object):
         if self.__uses_functions:
             if self.__aliases:
                 return '\n'.join(chain.from_iterable([
-                    f'#define {namesp}_INSTR_{alias.upper()}_{left}_{right} 0x{format(Instruction.__inc_enccnt(), fmt)}'
+                    f'#define {namesp}_INSTR_{alias.upper()}_{str(left).upper()}_{str(right).upper()} 0x{format(Instruction.__inc_enccnt(), fmt)}'
                         for left, right in operand_combos
                             for alias in self.__functions
                 ]))
             else:
                 return '\n'.join([
                     '\n'.join([
-                        f'#define {namesp}_INSTR_{name}_{left}_{right} 0x{format(Instruction.__inc_enccnt(), fmt)}'
+                        f'#define {namesp}_INSTR_{name}_{str(left).upper()}_{str(right).upper()} 0x{format(Instruction.__inc_enccnt(), fmt)}'
                             for left, right in operand_combos
                     ]),
                     '\n'.join([
@@ -227,7 +227,7 @@ class Instruction(object):
                 ])
         
         return '\n'.join([
-            f'#define {namesp}_INSTR_{name}_{left}_{right} 0x{format(Instruction.__inc_enccnt(), fmt)}' for left, right in operand_combos
+            f'#define {namesp}_INSTR_{str(left).upper()}_{str(right).upper()} 0x{format(Instruction.__inc_enccnt(), fmt)}' for left, right in operand_combos
         ])
 
     def encode(self):
@@ -250,6 +250,41 @@ class Instruction(object):
     def name(self):
         return self.__name
 
+    def __unwrap_binary(self):
+        operand_combos = chain.from_iterable([left.combinations(right)
+                                                for left in self.__operands
+                                                    for right in self.__operands])
+        if self.__uses_functions and self.__aliases:
+            return [
+                f'{alias}_{left}_{right}'
+                    for left, right in operand_combos
+                        for alias in self.__functions
+            ]
+        
+        return [f'{self.__name}_{left}_{right}' for left, right in operand_combos]
+
+    def __unwrap_unary(self):
+        unwrapped = chain.from_iterable(map(OperandTemplate.unwrap, self.__operands))
+        if self.__uses_functions and self.__aliases:
+            return [
+                f'{alias}_{operand}'
+                    for operand in unwrapped
+                        for alias in self.__functions
+            ]
+
+        return [f'{self.__name}_{operand}' for operand in unwrapped]
+
+    def unwrap(self):
+        if self.unary():
+            return self.__unwrap_unary()
+
+        if self.binary():
+            return self.__unwrap_binary()
+
+        return [f'{self.__name}']
+
+
+
 class InvalidStageError(Exception):
     pass
 
@@ -271,6 +306,9 @@ class CType(object):
 
     def typename(self):
         return self.__typename
+
+    def typedecl(self):
+        return re.match(r'(?:const\s+)?((?:struct)\s+[^*]+)(?:\s*\*)?', self.__typename)[1]
 
     def struct(self):
         return self.__struct
@@ -322,26 +360,26 @@ class DatapathStage(object):
         output_type_blueprint = self.__transform_blueprint(previous, obj['output'])
 
         if type(input_type_blueprint) is dict:
-            self.__input_type = CType(f'{namespace}_{self.__name}_input_t', input_type_blueprint)
+            self.__input_type = CType(f'const {namespace}_{self.__name}_input_t*', input_type_blueprint)
         else:
             self.__input_type = CType(input_type_blueprint)
         
         if type(output_type_blueprint) is dict:
-            self.__output_type = CType(f'{namespace}_{self.__name}_output_t', output_type_blueprint)
+            self.__output_type = CType(f'{namespace}_{self.__name}_output_t*', output_type_blueprint)
         else:
             self.__output_type = CType(output_type_blueprint)
 
     def input_typedef(self):
         newline = '\n\t'
         props = self.__input_type.props()
-        return f'''{self.__input_type.typename()} {{
+        return f'''{self.__input_type.typedecl()} {{
 {newline.join([ty.vardecl(name) for name, ty in props.items()])}
 }};'''
 
     def output_typedef(self):
         newline = '\n\t'
         props = self.__output_type.props()
-        return f'''{self.__output_type.typename()} {{
+        return f'''{self.__output_type.typedecl()} {{
     {newline.join([ty.vardecl(name) for name, ty in props.items()])}
 }};'''
 
@@ -350,6 +388,12 @@ class DatapathStage(object):
 
     def output_type(self):
         return self.__output_type
+
+    def function_typedef(self):
+        return f'typedef {self.__namespace}_word_t (*{self.__name}_handler)({self.__input_type}, {self.__output_type});'
+
+    def gname(self):
+        return f'{self.__name}_handler {self.__name}_handlers[]'
 
     def __str__(self):
         return self.__name
@@ -367,51 +411,38 @@ class CFuncPrototype(object):
             self.__stages.append(stage)
             previous_stage = stage
 
-    def __sig(self, stage: DatapathStage):
-        return f'{self.__namespace}_word_t {self.name()}_{stage}(const {stage.input_type()} *in, {stage.output_type()} *out)'
+    def __proto_instr(self, stage, instr):
+        return f'{self.__namespace}_word_t {instr}_{stage}({stage.input_type()} in, {stage.output_type()} out);'
 
     def __proto(self, stage: DatapathStage):
-        sin = stage.input_type()
-        sout = stage.output_type()
-        proto = f'{self.__sig(stage)};'
-
-        if sin.struct() and sout.struct():
-            return '\n'.join(
-                [
-                    stage.input_typedef(),
-                    stage.output_typedef(),
-                    proto
-                ]
-            )
-
-        if sin.struct():
-            return '\n'.join(
-                [
-                    stage.input_typedef(),
-                    proto
-                ]
-            )
-
-        if sout.struct():
-            return '\n'.join(
-                [
-                    stage.output_typedef(),
-                    proto
-                ]
-            )
-
-        return proto
+        return map(functools.partial(self.__proto_instr, stage), self.__instr.unwrap())
 
     def protos(self):
-        return map(self.__proto, self.__stages)
+        return chain.from_iterable(map(self.__proto, self.__stages))
 
-    def __definition(self, stage: DatapathStage):
-        return f'''{self.__sig(stage)} {{
-return 0;
-}}'''
+    def __typedef(self, stage: DatapathStage):
+        sin = stage.input_type()
+        sout = stage.output_type()
 
-    def definitions(self):
-        return map(self.__definition, self.__stages)
+        if sin.struct() and sout.struct():
+            return [
+                stage.input_typedef(),
+                stage.output_typedef()
+            ]
 
-    def name(self):
-        return f'{self.__namespace}_instr_{self.__instr.name()}'
+        if sin.struct():
+            return [stage.input_typedef()]
+
+        if sout.struct():
+            return [stage.output_typedef()]
+
+        return []
+
+    def typedefs(self):
+        return set(chain.from_iterable(map(self.__typedef, self.__stages)))
+
+    def names(self, stage):
+        return [f'{instr}_{stage}' for instr in self.__instr.unwrap()]
+
+    def stages(self):
+        return self.__stages

@@ -2,6 +2,7 @@
 import json
 import argparse
 import scripts.genutils as genutils
+import itertools
 
 def gendefs(input_file, output_file):
     with open(input_file, 'r') as rs:
@@ -11,8 +12,13 @@ def gendefs(input_file, output_file):
         width = obj['width']
 
         instructions = [genutils.Instruction(name, width, instr) for instr in obj['instructions']]
+        registers = [genutils.Register(name, width, reg) for reg in obj['registers']]
 
-        newline = '\n'
+        required_headers = '\n'.join([f'#include <{name}>' for name in obj['dependencies']['gendefs']])
+        instr_encodings = '\n'.join(map(genutils.Instruction.encode, instructions))
+        reg_encodings = '\n'.join([left.encode_combinations(right) 
+                                    for left in registers
+                                        for right in registers])
 
         output = f'''#ifndef {name.upper()}DEF_H
 #define {name.upper()}DEF_H
@@ -20,10 +26,15 @@ def gendefs(input_file, output_file):
 #define {name.upper()}_VER {version}
 
 #include <stdint.h>
+{required_headers}
 
 typedef uint{width}_t {name}_word_t;
 
-{newline.join(map(genutils.Instruction.encode, instructions))}
+{instr_encodings}
+
+#define {name.upper()}_REGCOUNT {len(registers)}
+
+{reg_encodings}
 
 #endif'''
 

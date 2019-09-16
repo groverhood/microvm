@@ -26,6 +26,7 @@ def genfproto(input_file, output_file):
         with open(output_file, 'w') as ws:
             listify = lambda names: ',\n\t'.join(names)
 
+            required_headers = '\n'.join([f'#include <{name}>' for name in defs['dependencies']['genfproto']])
             typedefs = '\n\n'.join(genutils.unique(itertools.chain.from_iterable(map(genutils.CFuncPrototype.typedefs, cfuncps))))
             protos = '\n\n'.join(genutils.unique(itertools.chain.from_iterable(map(genutils.CFuncPrototype.protos, cfuncps))))
             stage_typedefs = '\n\n'.join(map(genutils.DatapathStage.function_typedef, stages))
@@ -36,6 +37,7 @@ def genfproto(input_file, output_file):
 #define {upper}FPROTO_H
 
 #include <{name}def.h>
+{required_headers}
 
 {typedefs}
 

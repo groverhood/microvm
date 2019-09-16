@@ -2,6 +2,23 @@
     "name": "m86",
     "width": 64,
     "version": 0,
+    "registers": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9",
+        "r10",
+        "r11",
+        "r12",
+        "rsp",
+        "rbp",
+        "rip"
+    ],
     "instructions": [
         {
             "name": "halt",
@@ -12,7 +29,7 @@
             "name": "op",
             "operands": [
                 "^&zero",
-                "reg",
+                "&reg",
                 "^&imm",
                 "?mem"
             ],
@@ -97,8 +114,85 @@
             "name": "decode",
             "input": "$previous",
             "output": {
-                
-            }
-        }
-    ]
+				"instr": "int",
+				"func":  "int",
+	
+               	"val_a": "$word",
+				"val_b": "$word",
+
+				"dest_m": "$word",
+				"dest_e": "int",
+
+				"size_dest_m": "int",
+				"size_dest_e": "int",
+
+				"predicted_val_p": "uint8_t*" 
+           	}
+        },
+		{
+			"name": "execute",
+			"input": "$previous",
+			"output": {
+				"instr": "int",
+				"func": "int",
+				
+				"val_e": "$word",
+				"cc": "int",
+
+				"dest_m": "$word",
+				"dest_e": "int",
+				
+				"size_dest_m": "int",
+				"size_dest_e": "int",
+
+				"predicted_val_p": "uint8_t*"
+			}
+		},
+		{
+			"name": "memory",
+			"input": "$previous",
+			"output": {
+				"instr": "int",
+				"func": "int",
+				
+				"val_e": "$word",
+				"val_m": "$word",
+
+				"cc": "int",
+				
+				"dest_m": "$word",
+				"dest_e": "int",
+				
+				"size_dest_m": "int",
+				"size_dest_e": "int",
+
+				"predicted_val_p": "uint8_t*"
+			}
+		},
+		{
+			"name": "write",
+			"input": "$previous",
+			"output": "struct m86_cpu_state_t*"
+		}
+    ],
+	"dependencies": {
+		"gendefs": [],
+		"genfproto": ["m86cpu.h"]
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

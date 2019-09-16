@@ -19,8 +19,21 @@ class Operand(object):
     def __str__(self):
         return f'{self.__name}{self.__width}' if self.__width is not None else self.__name
 
+    def name(self):
+        return self.__name
+
+    def width(self):
+        return self.__width
+
     def __repr__(self):
         return str(self)
+
+    def __eq__(self, other):
+        return self.__name == other.__name and self.__width == other.__width
+
+    def __ne__(self, other):
+        return not (self == other)
+        
 
 class OperandTemplate(object):
     def __init__str(self, width, s: str):
@@ -51,6 +64,7 @@ class OperandTemplate(object):
         self.__modes = [OperandTemplate(width, name) for name in d['modes']]
         self.__dict = True
         self.__maxwidth = width
+        self.__scale = False
 
         if 'use' in d:
             self.__use = Use[d['use'].capitalize()]
@@ -72,7 +86,9 @@ class OperandTemplate(object):
 
 
     def __combinations(self, other):
-        if self.__use == Use.Right or other.__use == Use.Left or not self.__repeatable and self == other:
+        if self.__use == Use.Right or other.__use == Use.Left or not self.__scale and (
+            self.__dict and other.__dict and self.__modes == other.__modes or not self.__dict and not other.__dict and self.__str == other.__str
+        ):
             return []
 
         can_left = lambda self: self.__use is Use.Either or self.__use is Use.Left
@@ -93,21 +109,23 @@ class OperandTemplate(object):
                 self.combinations(right) for right in filter(can_right, other.__modes)
             ])
         
-        widths = filter(lambda n: n <= self.__maxwidth, [8, 16, 32, 64])
+        self_widths = list(filter(lambda n: n <= self.__maxwidth, [8, 16, 32, 64]))
+        other_widths = list(filter(lambda n: n <= other.__maxwidth, [8, 16, 32, 64]))
+        ffun = lambda opt: opt[0].width() <= opt[1].width()
 
         if self.__scale and other.__scale:
-            return [
+            return filter(ffun, [
                 (Operand(self.__str, lw), Operand(other.__str, rw))
-                    for lw in widths
-                        for rw in widths
-            ]
+                    for lw in self_widths
+                        for rw in other_widths
+            ])
         if self.__scale:
             return [
-                (Operand(self.__str, width), Operand(other.__str, None)) for width in widths
+                (Operand(self.__str, width), Operand(other.__str, None)) for width in self_widths
             ]
         if other.__scale:
             return [
-                (Operand(self.__str, None), Operand(other.__str, width)) for width in widths
+                (Operand(self.__str, None), Operand(other.__str, width)) for width in other_widths
             ]
         
         return [(Operand(self.__str, None), Operand(other.__str, None))]
@@ -123,15 +141,6 @@ class OperandTemplate(object):
             return [Operand(self.__str, width) for width in filter(lambda n: n <= self.__maxwidth, [8, 16, 32, 64])]
 
         return [Operand(self.__str, None)]
-
-    def __eq__(self, other):
-        if self.__dict and other.__dict:
-            return self.__modes == other.__modes
-        
-        if not self.__dict and not other.__dict:
-            return self.__str == other.__str
-
-        return False
 
 class EncodingOutOfBoundsError(Exception):
     pass
@@ -460,3 +469,31 @@ class CFuncPrototype(object):
 
     def stages(self):
         return self.__stages
+        
+
+class Register(object):
+    __regcmb_cnt = 0
+
+    @classmethod
+    def __inc_regcmb_count(cls):
+        tmp = cls.__regcmb_cnt
+        cls.__regcmb_cnt = tmp + 1
+        return tmp
+
+    def __init__(self, namespace, width, name):
+        suffixes = [(8, 'b'), (16, 'w'), (32, 'd'), (64, '')]
+
+        self.__namespace = namespace
+        self.__suffixes = [suffixes[idx] for idx in filter(lambda i: (8 << i) <= width, [0, 1, 2, 3])]
+        self.__name = name
+    
+    def encode_combinations(self, other):
+        cls = type(self)
+        fmt = '02X'
+
+        return f'#define {self.__namespace.upper()}_REGCMB_{self}{other} 0x{format(cls.__inc_regcmb_count(), fmt)}'
+
+    def __str__(self):
+        return self.__name.upper()
+        
+    

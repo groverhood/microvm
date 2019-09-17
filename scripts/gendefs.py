@@ -10,15 +10,17 @@ def gendefs(input_file, output_file):
         name = obj['name']
         version = obj['version']
         width = obj['width']
+        fmt = '02X'
 
         instructions = [genutils.Instruction(name, width, instr) for instr in obj['instructions']]
         registers = [genutils.Register(name, width, reg) for reg in obj['registers']]
 
         required_headers = '\n'.join([f'#include <{name}>' for name in obj['dependencies']['gendefs']])
         instr_encodings = '\n'.join(map(genutils.Instruction.encode, instructions))
-        reg_encodings = '\n'.join([left.encode_combinations(right) 
+        regcmb_encodings = '\n'.join([left.encode_combinations(right) 
                                     for left in registers
                                         for right in registers])
+        reg_encodings = '\n'.join([f'#define {name.upper()}_REG_{reg} 0x{format(idx, fmt)}' for idx, reg in enumerate(map(str, registers))])  
 
         output = f'''#ifndef {name.upper()}DEF_H
 #define {name.upper()}DEF_H
@@ -33,6 +35,8 @@ typedef uint{width}_t {name}_word_t;
 {instr_encodings}
 
 #define {name.upper()}_REGCOUNT {len(registers)}
+
+{regcmb_encodings}
 
 {reg_encodings}
 

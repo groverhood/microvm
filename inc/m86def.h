@@ -328,4 +328,20 @@ typedef uint64_t m86_word_t;
 #define M86_REGCMB_RIPRBP 0xDF
 #define M86_REGCMB_RIPRIP 0xE0
 
+#define M86_REG_R1 0x00
+#define M86_REG_R2 0x01
+#define M86_REG_R3 0x02
+#define M86_REG_R4 0x03
+#define M86_REG_R5 0x04
+#define M86_REG_R6 0x05
+#define M86_REG_R7 0x06
+#define M86_REG_R8 0x07
+#define M86_REG_R9 0x08
+#define M86_REG_R10 0x09
+#define M86_REG_R11 0x0A
+#define M86_REG_R12 0x0B
+#define M86_REG_RSP 0x0C
+#define M86_REG_RBP 0x0D
+#define M86_REG_RIP 0x0E
+
 #endif

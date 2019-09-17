@@ -10,9 +10,12 @@
 #include <m86fproto.h>
 #include <m86cpu.h>
 
+#include <string.h>
+#include <stdlib.h>
+
 /* M86CPU FUNCTION IMPLEMENTATIONS */
 
-m86_word_t getrval(const struct m86_cpu_state *restrict state, int reg, int chunk) {
+m86_word_t getrval(const struct m86_cpu_state_t *restrict state, int reg, int chunk) {
 	union m86_chunk_conv {
 		uint64_t qword;
 		uint32_t dword;
@@ -43,6 +46,45 @@ cpustat_t getcstat(const struct m86_cpu_state_t *restrict state) {
 	return state->cstatus;
 }
 
+cpustat_t cpuinit(struct m86_cpu_state_t *restrict state) {
+	memset(state->registers, 0, M86_REGCOUNT * sizeof(uint64_t));
+	state->cstatus = CSTATUS_READY;
+}
+
+cpustat_t cputrst(const struct m86_cpu_state_t *restrict state, struct m86_cpu_state_t *restrict copy) {
+	copy->cstatus = state->cstatus;
+	copy->instruction_ptr = state->instruction_ptr;
+	memcpy(copy->registers, state->registers, M86_REGCOUNT * sizeof(uint64_t));
+}
+
+cpustat_t cpuip(struct m86_cpu_state_t *restrict state, uint8_t *ip, int how) {
+	state->instruction_ptr = ip;
+	if (!how) {
+		cpustat_t stat = getcstat(state);
+		while (stat == CSTATUS_RUN) {
+			m86_word_t rip = getrval(state, M86_REG_RIP, 64);
+			int instr = ip[rip];
+
+			struct m86_fetch_output_t fetch_out;
+			struct m86_decode_output_t decode_out;
+			struct m86_execute_output_t exec_out;
+			struct m86_memory_output_t memory_out;
+
+			fetch_handlers[instr](ip, &fetch_out);
+			decode_handlers[instr](&fetch_out, &decode_out);
+			execute_handlers[instr](&decode_out, &exec_out);
+			memory_handlers[instr](&exec_out, &memory_out);
+			write_handlers[instr](&memory_out, state);
+
+			stat = getcstat(state);
+			while (stat == CSTATUS_READY) {
+				stat = getcstat(state);
+			}
+		}
+	} else {
+
+	}
+}
 
 /* M86FPROTO FUNCTION IMPLEMENTATIONS */
 

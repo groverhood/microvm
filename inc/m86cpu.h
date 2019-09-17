@@ -24,7 +24,7 @@ m86_word_t getrval(const struct m86_cpu_state_t *state, int reg, int chunk);
  * 	Set the value of the specified register in the provided
  * 	CPU state to the <chunk> bits-sized integer.
  **/
-void m86_word_t setrval(const struct m86_cpu_state_t *state, int reg, m86_word_t val, int chunk);
+void setrval(struct m86_cpu_state_t *state, int reg, m86_word_t val, int chunk);
 
 /**
  * 	Retrieves the CPU status from the provided CPU state.

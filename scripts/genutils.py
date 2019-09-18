@@ -388,9 +388,7 @@ class DatapathStage(object):
     def output_typedef(self):
         newline = '\n\t'
         props = self.__output_type.props()
-        return f'''{self.__output_type.typedecl()} {{
-    {newline.join([ty.vardecl(name) for name, ty in props.items()])}
-}};'''
+        return f'{self.__output_type.typedecl()} {{{newline}{newline.join([ty.vardecl(name) for name, ty in props.items()])}\n}};'
 
     def input_type(self):
         return self.__input_type

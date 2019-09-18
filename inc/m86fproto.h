@@ -5,7 +5,7 @@
 #include <m86cpu.h>
 
 struct m86_fetch_output_t {
-    int instr;
+	int instr;
 	int func;
 	int r_a;
 	int r_b;
@@ -17,7 +17,7 @@ struct m86_fetch_output_t {
 };
 
 struct m86_decode_output_t {
-    int instr;
+	int instr;
 	int func;
 	m86_word_t val_a;
 	m86_word_t val_b;
@@ -29,7 +29,7 @@ struct m86_decode_output_t {
 };
 
 struct m86_execute_output_t {
-    int instr;
+	int instr;
 	int func;
 	m86_word_t val_e;
 	int cc;
@@ -41,7 +41,7 @@ struct m86_execute_output_t {
 };
 
 struct m86_memory_output_t {
-    int instr;
+	int instr;
 	int func;
 	m86_word_t val_e;
 	m86_word_t val_m;

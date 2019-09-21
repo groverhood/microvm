@@ -1,3 +1,5 @@
+#ifndef M86CPU_H
+#define M86CPU_H
 
 #include <m86def.h>
 
@@ -49,3 +51,5 @@ cpustat_t cputrst(const struct m86_cpu_state_t *restrict state, struct m86_cpu_s
  *  invoke it sequentially or using a pipeline.
  **/
 cpustat_t cpuip(struct m86_cpu_state_t *restrict state, uint8_t *ip, int how);
+
+#endif

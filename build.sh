@@ -17,6 +17,6 @@ genfproto -o inc/m86fproto.h
 gendefs -o inc/m86def.h
 
 # this handles the C sources
-if [ -d "Makefile" ]; then
+if [ -f "Makefile" ]; then
     make
 fi

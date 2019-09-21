@@ -5,8 +5,6 @@
 
 static struct m86_cpu_state_t current_cpu_state;
 
-
-
 int main(int argc, char *argv[]) {
     return 0;
 }
